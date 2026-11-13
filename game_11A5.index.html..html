@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>11A5 Unlock – Chọn ô bí ẩn</title>
+<style>
+:root{
+  --navy:#20264a;--navy2:#303d70;--gold:#ffd66b;--ink:#20243b;
+  --paper:#f5f6fb;--muted:#68708a;--line:#e2e5ef;--white:#fff;
+  --pink:#f7dce8;--mint:#dff3eb;--lav:#e9e4fb;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;background:linear-gradient(135deg,#f6f3ff,#eef5ff 55%,#fff7ed);color:var(--ink)}
+button,input,textarea{font:inherit}
+button{cursor:pointer}
+.wrap{max-width:1050px;margin:auto;padding:24px 18px 48px}
+.hero{background:linear-gradient(130deg,#20264a,#39477d);color:white;border-radius:26px;padding:30px 26px;position:relative;overflow:hidden;box-shadow:0 16px 38px #20264a24}
+.hero:after{content:"✦";position:absolute;font-size:190px;color:#ffffff12;right:28px;top:-42px;transform:rotate(15deg)}
+.eyebrow{font-size:12px;font-weight:800;letter-spacing:2px;color:var(--gold);text-transform:uppercase}
+h1{font-size:clamp(30px,6vw,48px);line-height:1.05;margin:10px 0}
+.hero p{max-width:650px;color:#e3e8ff;line-height:1.6;margin:12px 0 0}
+.hero-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
+.btn{border:0;border-radius:12px;padding:11px 16px;font-weight:750;transition:.18s}
+.btn:hover{transform:translateY(-1px);filter:brightness(1.03)}
+.btn-gold{background:var(--gold);color:#30264a}
+.btn-light{background:#ffffff18;color:white;border:1px solid #ffffff42}
+.btn-dark{background:var(--navy);color:white}
+.btn-outline{background:white;border:1px solid var(--line);color:var(--ink)}
+.layout{display:grid;grid-template-columns:1.15fr .85fr;gap:18px;margin-top:20px}
+.panel{background:#ffffffd9;border:1px solid #e6e8f1;border-radius:22px;padding:20px;box-shadow:0 8px 24px #26335c0a}
+.section-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px}
+h2{font-size:20px;margin:0}
+.small{font-size:13px;color:var(--muted);line-height:1.55}
+.grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.tile{border:0;min-height:88px;border-radius:17px;background:linear-gradient(145deg,#303d70,#20264a);color:white;box-shadow:0 6px 12px #20264a20;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;position:relative;overflow:hidden}
+.tile strong{font-size:27px;line-height:1}
+.tile span{font-size:10px;font-weight:800;letter-spacing:1px;color:#dbe2ff}
+.tile:hover{transform:translateY(-3px);box-shadow:0 10px 18px #20264a30}
+.tile.opened{background:linear-gradient(145deg,#f7d98a,#f3b94f);color:#3b2d16}
+.tile.opened span{color:#5d4824}
+.tile:disabled{cursor:default;opacity:.8}
+.progress-row{display:flex;justify-content:space-between;margin-top:14px;color:var(--muted);font-size:12px}
+.progress{height:7px;border-radius:20px;background:#e9ebf4;margin-top:7px;overflow:hidden}
+.progress>i{display:block;height:100%;width:0;background:linear-gradient(90deg,#f3b94f,#e88bb5);transition:.25s}
+.instructions{display:grid;gap:12px}
+.step{display:flex;gap:12px;align-items:flex-start}
+.num{width:30px;height:30px;flex:0 0 30px;border-radius:10px;background:var(--lav);color:#554a8e;display:grid;place-items:center;font-weight:900}
+.step p{margin:2px 0 0;font-size:14px;line-height:1.5}
+.tip{background:#fff6dc;border:1px solid #f4e4b5;padding:13px 14px;border-radius:14px;font-size:13px;line-height:1.5;color:#65501d}
+.result{display:none;margin-top:16px;padding:20px;border-radius:18px;background:linear-gradient(135deg,#fff7df,#fff 80%);border:1px solid #f1dfaa}
+.result.show{display:block;animation:pop .25s ease}
+@keyframes pop{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
+.tag{display:inline-block;padding:6px 10px;border-radius:30px;background:#e9e4fb;color:#514783;font-size:11px;font-weight:850;letter-spacing:.6px}
+.result h3{font-size:20px;margin:12px 0 7px}
+.result .question{font-size:18px;line-height:1.55;font-weight:700}
+.result .time{font-size:12px;color:var(--muted);margin-top:10px}
+.edit-panel{margin-top:20px}
+.edit-panel details{border:1px solid var(--line);border-radius:18px;background:#fff;padding:15px}
+summary{cursor:pointer;font-weight:800;list-style:none;display:flex;justify-content:space-between}
+summary::-webkit-details-marker{display:none}
+.editor-tools{display:flex;gap:8px;flex-wrap:wrap;margin:15px 0}
+.field{display:grid;gap:6px;margin-bottom:12px}
+label{font-size:12px;font-weight:800;color:#515873}
+input,textarea{width:100%;border:1px solid #dfe3ee;border-radius:10px;padding:10px 11px;background:#fbfcff;color:var(--ink);outline:none}
+input:focus,textarea:focus{border-color:#8c8bd1;box-shadow:0 0 0 3px #8c8bd122}
+textarea{min-height:68px;resize:vertical}
+.editor-list{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.editor-card{border:1px solid var(--line);border-radius:14px;padding:12px;background:#fafbff}
+.editor-card-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:9px;font-size:13px;font-weight:850}
+.delete{border:0;background:#ffe8e8;color:#a33434;border-radius:8px;padding:5px 8px;font-size:11px;font-weight:800}
+.footer{text-align:center;color:#7b8196;font-size:12px;margin-top:22px}
+.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#20264a;color:#fff;padding:10px 16px;border-radius:30px;font-size:13px;opacity:0;pointer-events:none;transition:.2s;z-index:5}
+.toast.show{opacity:1}
+@media(max-width:760px){.layout{grid-template-columns:1fr}.grid{grid-template-columns:repeat(5,1fr);gap:7px}.tile{min-height:70px;border-radius:13px}.tile strong{font-size:23px}.panel{padding:16px}.editor-list{grid-template-columns:1fr}.hero{padding:24px 20px}}
+@media(max-width:380px){.grid{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="hero">
+    <div class="eyebrow">Mini game giao lưu · 20/11</div>
+    <h1 id="gameTitle">11A5 UNLOCK 🔓<br><span style="color:#ffd66b">Giải mã thầy cô!</span></h1>
+    <p id="gameIntro">Thầy cô nào có câu nói “thương hiệu”? Ai sẽ được trao giải Oscar 11A5? Chọn một ô bí ẩn, bật mí câu hỏi và cùng lớp giải mã thầy cô theo phong cách Gen Z!</p>
+    <div class="hero-actions">
+      <button class="btn btn-gold" onclick="scrollToGame()">Bắt đầu chơi ↓</button>
+      <button class="btn btn-light" onclick="document.getElementById('editor').scrollIntoView({behavior:'smooth'})">✎ Chỉnh sửa nội dung</button>
+    </div>
+  </header>
+
+  <main class="layout" id="game">
+    <section class="panel">
+      <div class="section-head">
+        <div><h2>🎁 Chọn một ô bí ẩn</h2><div class="small">Mỗi người chọn một ô chưa được mở.</div></div>
+        <span class="tag" id="countTag">0/10 đã mở</span>
+      </div>
+      <div class="grid" id="tileGrid"></div>
+      <div class="progress-row"><span>Tiến độ khám phá</span><span id="progressText">0%</span></div>
+      <div class="progress"><i id="progressBar"></i></div>
+      <div class="result" id="result">
+        <span class="tag" id="resultTag">THỬ THÁCH</span>
+        <h3 id="resultTitle">Ô số 01 bật mí!</h3>
+        <div class="question" id="resultQuestion"></div>
+        <div class="time" id="resultTime">⏱ Thời gian gợi ý: 15–20 giây</div>
+      </div>
+      <div style="display:flex;gap:9px;flex-wrap:wrap;margin-top:15px">
+        <button class="btn btn-dark" onclick="resetGame()">↻ Chơi lại từ đầu</button>
+        <button class="btn btn-outline" onclick="nextAvailable()">Ô tiếp theo →</button>
+      </div>
+    </section>
+
+    <aside class="panel">
+      <div class="section-head"><h2>📣 Phổ biến luật chơi</h2><span class="tag">15 phút</span></div>
+      <div class="small" style="margin-bottom:14px"><b>Lời dẫn MC có thể đọc:</b><br>“Tiếp theo, chúng ta sẽ đến với trò chơi <b>11A5 UNLOCK – Giải mã thầy cô</b>. Trên màn hình có 10 ô bí ẩn. Mỗi ô là một câu hỏi hoặc thử thách vui về những thầy cô đang giảng dạy lớp mình. Các bạn sẽ lần lượt chọn ô, mở câu hỏi và thử sức ứng biến. Hãy cùng tham gia thật tự nhiên, vui vẻ và dành sự tôn trọng đến tất cả thầy cô nhé!”</div>
+      <div class="instructions">
+        <div class="step"><div class="num">1</div><p><b>Chọn người chơi:</b> Mời lần lượt khoảng 8–10 học sinh tham gia. Mỗi lượt một bạn chọn một ô chưa mở trên màn hình.</p></div>
+        <div class="step"><div class="num">2</div><p><b>Mở ô bí ẩn:</b> MC nhấn vào ô học sinh đã chọn và đọc to câu hỏi/thử thách hiện ra.</p></div>
+        <div class="step"><div class="num">3</div><p><b>Trả lời cá nhân:</b> Người chơi có khoảng 15–20 giây để trả lời, đoán thầy cô hoặc thực hiện thử thách. Với câu hỏi đoán thầy cô, cả lớp có thể giơ tay đoán cùng sau phần trả lời.</p></div>
+        <div class="step"><div class="num">4</div><p><b>Khích lệ và trao quà:</b> MC ghi nhận câu trả lời dí dỏm, sáng tạo hoặc ý nghĩa. Có thể tặng quà nhỏ cho người chơi; không đặt nặng thắng – thua.</p></div>
+      </div>
+      <div class="tip" style="margin-top:16px"><b>📌 Quy định chung:</b> Mỗi học sinh chọn một ô; ô đã mở không chọn lại. Không dùng điện thoại. Không nói xấu, chế giễu hay bắt chước thầy cô theo hướng gây khó chịu. Nếu chưa nghĩ ra câu trả lời, người chơi được xin gợi ý hoặc đổi lượt một lần.</div>
+      <div class="small" style="margin-top:14px"><b>Phân bổ thời gian gợi ý:</b> 2 phút giới thiệu luật · 10 phút chơi (8–10 lượt, khoảng 1 phút/lượt) · 3 phút tổng kết, trao quà và gửi lời chúc 20/11.</div>
+      <div style="margin-top:14px;padding:13px;border-radius:14px;background:#eef5ff;font-size:13px;line-height:1.55">
+        <b>🎤 Lời kết MC:</b><br>“Cảm ơn những câu trả lời rất đáng yêu của các bạn. Qua trò chơi, chúng ta có dịp nhìn lại những điều gần gũi và đáng nhớ về thầy cô. Nhân ngày 20/11, chúc các thầy cô luôn mạnh khỏe, nhiều niềm vui và tiếp tục đồng hành cùng chúng em trên hành trình học tập!”
+      </div>
+    </aside>
+  </main>
+
+  <section class="panel edit-panel" id="editor">
+    <details>
+      <summary>✏️ Chỉnh sửa nội dung trò chơi <span>＋</span></summary>
+      <p class="small">Bạn có thể đổi tên trò chơi, lời giới thiệu, câu hỏi và nhãn thử thách; thêm hoặc xóa ô. Nội dung được lưu trên trình duyệt của thiết bị này.</p>
+      <div class="field"><label for="titleInput">Tên trò chơi</label><input id="titleInput" value="11A5 UNLOCK 🔓 – Giải mã thầy cô!"></div>
+      <div class="field"><label for="introInput">Lời giới thiệu</label><textarea id="introInput">Thầy cô nào có câu nói “thương hiệu”? Ai sẽ được trao giải Oscar 11A5? Chọn một ô bí ẩn, bật mí câu hỏi và cùng lớp giải mã thầy cô theo phong cách Gen Z!</textarea></div>
+      <div class="editor-tools">
+        <button class="btn btn-dark" onclick="applyHeader()">Áp dụng tiêu đề</button>
+        <button class="btn btn-outline" onclick="addQuestion()">＋ Thêm ô mới</button>
+        <button class="btn btn-outline" onclick="restoreDefaults()">Khôi phục nội dung mẫu</button>
+      </div>
+      <div class="editor-list" id="editorList"></div>
+      <div class="editor-tools">
+        <button class="btn btn-gold" onclick="saveEdits()">Lưu nội dung chỉnh sửa</button>
+        <button class="btn btn-outline" onclick="resetGame()">Đặt lại lượt chơi</button>
+      </div>
+    </details>
+  </section>
+  <div class="footer">11A5 UNLOCK · Giải mã thầy cô · Giao lưu 20/11</div>
+</div>
+<div class="toast" id="toast">Đã lưu nội dung!</div>
+<script>
+const defaults = [
+ {tag:"CÂU NÓI QUEN THUỘC",q:"Đoán xem câu nói nào thầy cô thường dùng nhất khi lớp bắt đầu ồn?"},
+ {tag:"BIỆT DANH DỄ THƯƠNG",q:"Nếu được đặt một biệt danh Gen Z thật dễ thương cho thầy cô, bạn sẽ chọn biệt danh gì?"},
+ {tag:"DIỄN XUẤT",q:"Hãy diễn tả một câu nói quen thuộc của thầy cô bằng nét mặt hoặc giọng nói (không châm chọc nhé)!"},
+ {tag:"THẤU HIỂU",q:"Theo bạn, điều gì khiến thầy cô vui nhất sau một tiết học?"},
+ {tag:"TRAO DANH HIỆU",q:"Nếu trao cho thầy cô một danh hiệu đặc biệt, bạn sẽ trao danh hiệu gì?"},
+ {tag:"KỶ NIỆM",q:"Kể một câu nói hoặc lời dặn của thầy cô mà bạn thấy đáng nhớ."},
+ {tag:"ĐOÁN TÍNH CÁCH",q:"Nếu thầy cô là một nhân vật trong phim, bạn nghĩ thầy cô sẽ là kiểu nhân vật nào?"},
+ {tag:"3 TỪ ĐẶC BIỆT",q:"Dùng đúng 3 từ để miêu tả một người thầy hoặc cô mà bạn quý mến."},
+ {tag:"LỜI NHẮN 10 GIÂY",q:"Bạn có 10 giây trên micro để gửi một lời nhắn đến các thầy cô. Bạn sẽ nói gì?"},
+ {tag:"SÁNG TẠO 20/11",q:"Sáng tạo một câu slogan thật ấn tượng dành tặng thầy cô nhân ngày 20/11!"}
+];
+let questions = loadQuestions();
+let opened = new Set();
+let selected = -1;
+function loadQuestions(){
+ try{const x=JSON.parse(localStorage.getItem("11a5unlock_questions"));return Array.isArray(x)&&x.length?x:defaults.map(x=>({...x}));}
+ catch(e){return defaults.map(x=>({...x}));}
+}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+function render(){
+ const grid=document.getElementById("tileGrid");
+ grid.innerHTML=questions.map((q,i)=>`<button class="tile ${opened.has(i)?"opened":""}" ${opened.has(i)?"disabled":""} onclick="reveal(${i})" aria-label="Mở ô số ${i+1}"><strong>${String(i+1).padStart(2,"0")}</strong><span>${opened.has(i)?"ĐÃ MỞ":"CHỌN Ô"}</span></button>`).join("");
+ const n=opened.size,p=Math.round(n/questions.length*100);
+ document.getElementById("countTag").textContent=`${n}/${questions.length} đã mở`;
+ document.getElementById("progressText").textContent=p+"%";
+ document.getElementById("progressBar").style.width=p+"%";
+ renderEditor();
+}
+function reveal(i){
+ if(opened.has(i))return;
+ selected=i;opened.add(i);
+ const q=questions[i];
+ document.getElementById("result").classList.add("show");
+ document.getElementById("resultTag").textContent=q.tag||"THỬ THÁCH";
+ document.getElementById("resultTitle").textContent=`Ô số ${String(i+1).padStart(2,"0")} bật mí!`;
+ document.getElementById("resultQuestion").textContent=q.q;
+ document.getElementById("result").scrollIntoView({behavior:"smooth",block:"nearest"});
+ render();
+}
+function resetGame(){opened.clear();selected=-1;document.getElementById("result").classList.remove("show");render();}
+function nextAvailable(){const i=questions.findIndex((q,i)=>!opened.has(i));if(i<0){toast("Tất cả ô đã được mở!");return;}reveal(i);}
+function scrollToGame(){document.getElementById("game").scrollIntoView({behavior:"smooth"});}
+function renderEditor(){
+ const list=document.getElementById("editorList");
+ list.innerHTML=questions.map((q,i)=>`<div class="editor-card"><div class="editor-card-top"><span>Ô ${String(i+1).padStart(2,"0")}</span><button class="delete" onclick="deleteQuestion(${i})">Xóa ô</button></div><div class="field"><label>Nhãn thử thách</label><input data-tag="${i}" value="${esc(q.tag||"")}" placeholder="Ví dụ: HÀI HƯỚC"></div><div class="field"><label>Nội dung câu hỏi / thử thách</label><textarea data-q="${i}">${esc(q.q||"")}</textarea></div></div>`).join("");
+}
+function applyHeader(){
+ const t=document.getElementById("titleInput").value.trim()||"11A5 UNLOCK 🔓";
+ const intro=document.getElementById("introInput").value.trim();
+ document.getElementById("gameTitle").innerHTML=esc(t).replace(" – ","<br><span style='color:#ffd66b'>")+"</span>";
+ document.getElementById("gameIntro").textContent=intro;
+ toast("Đã áp dụng tiêu đề và lời giới thiệu.");
+}
+function addQuestion(){questions.push({tag:"THỬ THÁCH MỚI",q:"Nhập nội dung thử thách của bạn tại đây."});render();document.getElementById("editor").scrollIntoView({behavior:"smooth"});}
+function deleteQuestion(i){if(questions.length<=1){toast("Cần giữ lại ít nhất một ô.");return;}questions.splice(i,1);resetGame();}
+function saveEdits(){
+ document.querySelectorAll("[data-tag]").forEach(el=>{const i=Number(el.dataset.tag);if(questions[i])questions[i].tag=el.value.trim();});
+ document.querySelectorAll("[data-q]").forEach(el=>{const i=Number(el.dataset.q);if(questions[i])questions[i].q=el.value.trim();});
+ localStorage.setItem("11a5unlock_questions",JSON.stringify(questions));
+ resetGame();toast("Đã lưu nội dung chỉnh sửa!");
+}
+function restoreDefaults(){
+ if(!confirm("Khôi phục toàn bộ câu hỏi mẫu? Nội dung chỉnh sửa hiện tại sẽ bị thay thế."))return;
+ questions=defaults.map(x=>({...x}));localStorage.removeItem("11a5unlock_questions");resetGame();toast("Đã khôi phục câu hỏi mẫu.");
+}
+function toast(msg){const el=document.getElementById("toast");el.textContent=msg;el.classList.add("show");setTimeout(()=>el.classList.remove("show"),2100);}
+render();
+</script>
+</body>
+</html>
